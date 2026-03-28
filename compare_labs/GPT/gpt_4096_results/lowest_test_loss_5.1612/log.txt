@@ -1,0 +1,8 @@
+lr: 0.0005
+weight_decay: 0.1
+batch_size: 2
+num_epochs: 2
+eval_freq: 128
+final_train_loss: 4.9015
+final_test_loss: 5.1750
+time_spent_on_train: 2308.82 s

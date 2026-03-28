@@ -1,0 +1,10 @@
+lr: 0.001
+weight_decay: 0.01
+batch_size: 4
+chunk_size: 32
+context_size: 4096
+num_epochs: 2
+eval_freq: 64
+final_train_loss: 7.0172
+final_test_loss: 6.6680
+time_spent_on_train: 1098.27 s

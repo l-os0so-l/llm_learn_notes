@@ -14,7 +14,11 @@
 
 ## 实验结果
 
+### loss对比
+
 三种架构的部分实验如下图所示：
+
+**（序列长度为1024）**
 
 <div align="center">
     <img src="./GPT/gpt_results/lowest_test_loss_4.7363/loss_plot.png" style="max-height:200px; width:auto;">
@@ -48,8 +52,23 @@
 
 - Hybrid相比KDA收敛更快，因为attention层能够聚合全局信息。本来8层KDA才能捕捉的依赖关系，两层attention提供了“捷径”或者说“增强器”，但也由于只有2层attention，所有没有显著的增加模型的容量，因此保留了全线性注意力的训练特性。
 
+### 两种序列长度下loss对比
+
+设置序列长度为4096，KDA和Hybrid选择训练2个epoch后的loss，GPT选择训练3个epoch后的loss，对比图如下：
+
+<div align="center">
+    <img src="./phs/compare.png" style="max-height:200px; width:auto;">
+    <br><sub>KDA</sub>
+</div>
+<br>
+
+在序列长度增长为原来的4倍时，KDA和Hybrid的loss保持原来的水平，但GPT无论是训练还是测试loss都有明显的上升。这表明，KDA更适合扩展到更长的上下文（不过此时GPT的效果仍然比KDA和Hybrid更好）。
+
+当序列长度增加时，GPT中每个token需要与更长的序列交互，注意力会被分散，并且由于其O(n^2)的时间复杂度，训练也会更加困难。KDA通过恰当的状态更新机制，处理更长的序列时也能捕捉重要信息，对长度的敏感性更低。
+
+
 ## 结论和预期
 
-这次实验对比了三种架构的训练结果，发现由标准注意力组成的GPT有更大的模型容量和表达能力，KDA和Hybrid收敛更快且泛化能力更强。
+这次实验对比了三种架构的训练结果，发现由标准注意力组成的GPT有更大的模型容量和表达能力，KDA和Hybrid收敛更快且泛化能力更强，并且更适合扩展至更长得上下文。
 
-KDA的强处在于处理长上下文，未来有机会应该进一步探究在context_size更大的情况下，三种架构的训练效果。
+在目前的实验中，KDA展现了良好的的扩展性和泛化性，但在绝对性能上依旧落后于GPT。不过如果在更长得多的上下文时，比如64k、128k时，KDA可以凭借扩展性在绝对性能上超过GPT吗？这些有待未来探究。
