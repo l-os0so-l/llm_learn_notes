@@ -1,0 +1,2 @@
+1. data数据和模型权重被删除
+2. PPO1是bonus1的代码，在PPO基础上实现了online filter。为避免修改原始PPO代码引入错误，直接在复制的PPO代码上进行修改。
